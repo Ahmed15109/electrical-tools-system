@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Balance Report | General Ledger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --positive: #10b981;
+            --negative: #ef4444;
+            --row-hover: rgba(59, 130, 246, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(15, 23, 42, 0.6);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--row-hover);
+            transform: scale(1.002);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .phone {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .currency {
+            font-family: 'Inter', monospace;
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+
+        .positive-balance {
+            color: var(--positive);
+            font-weight: 600;
+        }
+
+        .negative-balance {
+            color: var(--negative);
+            font-weight: 600;
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            align-items: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            animation: fadeInDown 0.8s ease-out 0.1s both;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .filter-group input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            color-scheme: dark;
+        }
+
+        .filter-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .filter-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .filter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .filter-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Customer General Ledger</h1>
+        <p>Real-time overview of customer balances, sales, and payments</p>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+        </div>
+        <div class="filter-group">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+        </div>
+        <button class="filter-btn" onclick="fetchReport()">Filter Ledger</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer Details</th>
+                    <th>Opening Balance</th>
+                    <th>Total Sales</th>
+                    <th>Total Payments</th>
+                    <th>Remaining Balance</th>
+                </tr>
+            </thead>
+            <tbody id="report-body">
+                <tr>
+                    <td colspan="5">
+                        <div class="loader">
+                            <div class="spinner"></div>
+                            <span>Loading ledger data...</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        };
+
+        const fetchReport = async () => {
+            try {
+                const tbody = document.getElementById('report-body');
+                tbody.innerHTML = '<tr><td colspan="5"><div class="loader"><div class="spinner"></div><span>Loading ledger data...</span></div></td></tr>';
+
+                const startDate = document.getElementById('start-date').value;
+                const endDate = document.getElementById('end-date').value;
+
+                                let url = '/api/customers/report/balances';
+                const params = new URLSearchParams();
+                if (startDate) params.append('startDate', startDate);
+                if (endDate) params.append('endDate', endDate);
+
+                                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+
+                const res = await fetch(url);
+                const result = await res.json();
+
+                                if (result.success && result.data) {
+                    tbody.innerHTML = '';
+
+                                        if (result.data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">No customer records found matching these dates.</td></tr>';
+                        return;
+                    }
+
+                    result.data.forEach(cust => {
+                        const remaining = cust.remainingBalance;
+                        let remainingClass = '';
+                        // Outstanding debt means money is owed, usually flagged as negative red in user perspective or positive liability. Let's make > 0 red, < 0 green
+                        if (remaining > 0) remainingClass = 'negative-balance'; 
+                        else if (remaining < 0) remainingClass = 'positive-balance';
+
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>
+                                <div class="customer-name">${cust.name}</div>
+                                <div class="phone">${cust.phone || 'No phone'}</div>
+                            </td>
+                            <td class="currency">${formatCurrency(cust.openingBalance)}</td>
+                            <td class="currency" style="color: #60a5fa">${formatCurrency(cust.totalSales)}</td>
+                            <td class="currency" style="color: #34d399">${formatCurrency(cust.totalPaid)}</td>
+                            <td class="currency ${remainingClass}">${formatCurrency(remaining)}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (err) {
+                document.getElementById('report-body').innerHTML = `<tr><td colspan="5" style="color: var(--negative); text-align: center; padding: 3rem;">Error loading data: ${err.message}</td></tr>`;
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', fetchReport);
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "name": "system_offline",
+  "productName": "system_app",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "npm run build && node server.js",
+    "build": "npm install --prefix client && npm run build --prefix client",
+    "server": "nodemon server.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently -n \"backend,frontend\" -c \"cyan,magenta\" \"npm run server\" \"npm run client\"",
+    "app:dev": "electron-forge start",
+    "app:build": "npm run build && electron-forge make",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true,
+        "ignore": [
+          "^/node_modules/\\.cache",
+          "^/client/node_modules",
+          "^/client/src",
+          "^/client/public",
+          "^/\\.git",
+          "^/out",
+          "^/dist_electron"
+        ]
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "system_app",
+            "authors": "Ahmed",
+            "description": "Electronics shop management system"
+          }
+        }
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "Ahmed",
+  "license": "ISC",
+  "description": "Electronics shop management system",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "electron-store": "^8.1.0",
+    "express": "^5.2.1",
+    "jspdf": "^4.2.1",
+    "react-hot-toast": "^2.6.0",
+    "react-window-infinite-loader": "^2.0.1",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.1",
+    "@electron-forge/maker-squirrel": "^7.5.0",
+    "concurrently": "^9.2.1",
+    "electron": "^33.4.11",
+    "electron-builder": "^26.8.1",
+    "nodemon": "^3.1.14"
+  }
+}

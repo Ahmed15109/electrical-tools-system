@@ -1,0 +1,8 @@
+{
+  "totalCustomers": 1,
+  "duplicatePhones": [],
+  "invalidPhoneLength": [],
+  "invalidNationalIdLength": [],
+  "nonNumericData": [],
+  "timestamp": "2026-04-04T18:00:16.510Z"
+}

@@ -1,0 +1,17 @@
+node_modules
+
+dist
+dist_electron
+out
+build
+
+.env
+
+*.db
+*.sqlite
+*.bak
+
+.vs
+.sixth
+tmp
+
