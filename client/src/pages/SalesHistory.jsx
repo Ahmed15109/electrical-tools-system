@@ -72,7 +72,7 @@ export default function SalesHistory() {
   const fetchSales = async (signal) => {
     try {
       setLoading(true);
-      const res = await api.get('/sales');
+      const res = await api.get('/sales?limit=1000');
       if (!signal?.aborted) {
         setSales(res.data || []);
       }

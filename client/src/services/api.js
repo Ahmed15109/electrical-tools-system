@@ -9,23 +9,23 @@ const ROUTES = [
     ['PUT', /^\/customers\/([^/]+)$/, (m, b) => window.api.customers.update(m[1], b)],
     ['DELETE', /^\/customers\/([^/]+)$/, (m) => window.api.customers.delete(m[1])],
 
-    ['GET', /^\/products$/, () => window.api.products.getAll()],
+    ['GET', /^\/products$/, (m, b, q) => window.api.products.getAll(q)],
     ['GET', /^\/products\/([^/]+)$/, (m) => window.api.products.getOne(m[1])],
     ['POST', /^\/products$/, (_, b) => window.api.products.create(b)],
     ['PUT', /^\/products\/([^/]+)$/, (m, b) => window.api.products.update(m[1], b)],
     ['DELETE', /^\/products\/([^/]+)$/, (m) => window.api.products.delete(m[1])],
 
-    ['GET', /^\/sales$/, () => window.api.sales.getAll()],
+    ['GET', /^\/sales$/, (m, b, q) => window.api.sales.getAll(q)],
     ['GET', /^\/sales\/([^/]+)$/, (m) => window.api.sales.getOne(m[1])],
     ['POST', /^\/sales$/, (_, b) => window.api.sales.create(b)],
     ['POST', /^\/sales\/([^/]+)\/cancel$/, (m) => window.api.sales.cancel(m[1])],
     ['DELETE', /^\/sales\/([^/]+)$/, (m) => window.api.sales.delete(m[1])],
 
-    ['GET', /^\/installments$/, () => window.api.installments.getAll()],
+    ['GET', /^\/installments$/, (m, b, q) => window.api.installments.getAll(q)],
     ['PUT', /^\/installments\/([^/]+)\/pay$/, (m, b) => window.api.installments.pay(m[1], b)],
     ['PUT', /^\/installments\/([^/]+)\/cancel$/, (m, b) => window.api.installments.cancel(m[1], b)],
 
-    ['GET', /^\/payments$/, () => window.api.payments.getAll()],
+    ['GET', /^\/payments$/, (m, b, q) => window.api.payments.getAll(q)],
     ['POST', /^\/payments\/expense$/, (_, b) => window.api.payments.addExpense(b)],
     ['POST', /^\/payments\/addManual$/, (_, b) => window.api.payments.addManual(b)],
     ['POST', /^\/payments\/manual$/, (_, b) => window.api.payments.addManual(b)],

@@ -97,7 +97,7 @@ export default function InstallmentsList() {
             setLoading(true);
             setError(null);
             console.log("[InstallmentsList] Fetching fresh sales data...");
-            const res = await api.get('/sales');
+            const res = await api.get('/sales?limit=1000');
             const data = safeArray(res.data?.data || res.data);
             console.log("[InstallmentsList] Data Fetch Success:", data.length, "sales");
             setSales(data);
