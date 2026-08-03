@@ -22,9 +22,18 @@
           "^/client/node_modules",
           "^/client/src",
           "^/client/public",
-          "^/\\.git",
-          "^/out",
-          "^/dist_electron"
+          "^/\\.git(?:/|$)",
+          "^/\\.vs(?:/|$)",
+          "^/\\.env(?:\\..*)?$",
+          "^/(?:out|dist_electron|build|release|\\.webpack)(?:/|$)",
+          "^/(?:backups?|exports?|reports?|uploads?|customer_images|tmp|temp)(?:/|$)",
+          "^/.*\\.(?:db|sqlite|sqlite3)(?:[.-].*)?$",
+          "^/.*\\.(?:bak|backup|restoring)$",
+          "^/.*(?:-journal|-shm|-wal)$",
+          "^/.*\\.(?:log|tmp|temp|asar|blockmap|exe|msi|nupkg|rar)$",
+          "^/RELEASES$",
+          "^/audit_report.*\\.json$",
+          "^/(?:db_(?:audit|diagnosis|migration_.*)|debug_sales_persistence|deep_inspect|find_db|get_paths|ghost_hunter|inspect_.*|scratch_.*)\\.js$"
         ]
       },
       "makers": [
@@ -48,9 +57,6 @@
     "dotenv": "^17.3.1",
     "electron-store": "^8.1.0",
     "express": "^5.2.1",
-    "jspdf": "^4.2.1",
-    "react-hot-toast": "^2.6.0",
-    "react-window-infinite-loader": "^2.0.1",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
   },
@@ -59,7 +65,6 @@
     "@electron-forge/maker-squirrel": "^7.5.0",
     "concurrently": "^9.2.1",
     "electron": "^33.4.11",
-    "electron-builder": "^26.8.1",
     "nodemon": "^3.1.14"
   }
 }

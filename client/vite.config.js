@@ -16,8 +16,7 @@ export default defineConfig({
   optimizeDeps: {
      include: [
         'react-window', 
-        'react-virtualized-auto-sizer', 
-        'react-window-infinite-loader'
+        'react-virtualized-auto-sizer'
      ]
   },
 
@@ -29,8 +28,7 @@ export default defineConfig({
        transformMixedEsModules: true,
        include: [
            /react-window/, 
-           /react-virtualized-auto-sizer/, 
-           /react-window-infinite-loader/
+           /react-virtualized-auto-sizer/
        ]
     },
 

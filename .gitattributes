@@ -1,0 +1,26 @@
+# Normalize text files across platforms.
+* text=auto eol=lf
+
+# Keep Windows command scripts native when they are added.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# npm lockfiles are machine-generated dependency snapshots.
+package-lock.json linguist-generated=true
+client/package-lock.json linguist-generated=true
+
+# Binary assets and local data must never be line-normalized or text-diffed.
+*.asar binary
+*.db* binary
+*.dll binary
+*.exe binary
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.nupkg binary
+*.pak binary
+*.png binary
+*.sqlite* binary
+*.webp binary

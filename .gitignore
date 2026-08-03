@@ -1,16 +1,85 @@
-node_modules
+# Dependencies
+node_modules/
+**/node_modules/
 
-dist
-dist_electron
-out
-build
+# Frontend and desktop build output
+dist/
+**/dist/
+dist_electron/
+out/
+build/
+release/
+.webpack/
+*.asar
+*.blockmap
+*.exe
+*.msi
+*.nupkg
+*.rar
+RELEASES
 
+# Environment and local configuration
 .env
+.env.*
+!.env.example
 
+# Local databases, backups, and SQLite sidecar files
 *.db
+*.db-*
+*.db.*
 *.sqlite
+*.sqlite-*
+*.sqlite.*
+*.sqlite3
+*.sqlite3-*
+*.sqlite3.*
 *.bak
+*.backup
+*.restoring
+*-journal
+*-shm
+*-wal
 
-.vs
-.sixth
-tmp
+# Local business data, exports, and uploaded customer files
+backups/
+exports/
+reports/
+uploads/
+customer_images/
+*.csv
+*.xls
+*.xlsx
+/config.json
+
+# Generated diagnostics and logs
+audit_report*.json
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test, coverage, and tool caches
+coverage/
+.cache/
+.eslintcache
+.nyc_output/
+tmp/
+temp/
+*.tmp
+*.temp
+~$*
+/scratch_*
+.sixth/
+
+# Editors and operating systems
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.DS_Store
+Thumbs.db
+Desktop.ini
